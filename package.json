@@ -1,0 +1,25 @@
+{
+  "name": "up",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": "3.4.7",
+    "nano": "4.3.0",
+    "underscore": "1.5.2"
+  },
+  "description": "Which way is up?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/taketime/up.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "1625f1a110bdcdee4e7f5acb6d70b41a40cf065e",
+  "bugs": {
+    "url": "https://github.com/taketime/up/issues"
+  }
+}
