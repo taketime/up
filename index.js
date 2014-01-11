@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
     res.send('heyo');
 });
 
-// Send a check with device id, lat long, time
+// Send a checkin with device id, lat long, time
 app.post('/device/:id', function(req, res) {
     var data = _(req.body).pick([
         '_rev',
@@ -58,6 +58,18 @@ app.post('/device/:id', function(req, res) {
             })
         });
     }
+});
+
+// Get the current position of all devices
+app.get('/devices', function(req, res) {
+    couch.view('location', 'devices', function(err, body) {
+        if (err) {
+            return err.status_code < 500 ?
+                res.json(err.status_code, err.message) :
+                res.json(500);
+        }
+        res.json(body.rows);
+    });
 });
 
 app.listen(process.env.port || 3000, function(){
