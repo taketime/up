@@ -7,6 +7,9 @@
     "underscore": "1.5.2"
   },
   "description": "Which way is up?",
+  "engines": {
+    "node": "0.10.x"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
