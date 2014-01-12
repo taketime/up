@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var url = require('url');
 var nano = require('nano')(url.format({
-    protocol: process.env.COUCH_PORT === 443 ? 'https' : 'http',
+    protocol: process.env.COUCH_PORT === "443" ? 'https' : 'http',
     hostname: process.env.COUCH_HOST,
     port: process.env.COUCH_PORT,
     auth: process.env.COUCH_USER + ":" + process.env.COUCH_PASS
