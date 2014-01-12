@@ -18,46 +18,41 @@ app.get('/', function(req, res) {
 });
 
 // Send a checkin with device id, lat long, time
-app.post('/device/:id', function(req, res) {
+app.post('/device', function(req, res) {
+    var data = _(req.body).pick([
+        'id',
+        'lat',
+        'lon',
+        'timestamp'
+    ]);
+    couch.insert(data, '/device/' + data.id, function(err, device) {
+        if (err) {
+            return err.status_code < 500 ?
+                res.json(err.status_code, err.message) :
+                res.json(500);
+        }
+        res.json(device);
+    });
+});
+
+app.put('/device/:id', function(req, res) {
     var data = _(req.body).pick([
         '_rev',
         'lat',
         'lon',
         'timestamp'
     ]);
+    if (!data._rev) return res.json("_rev is required");
     data.id = req.params.id;
 
-    // Update location
-    if (data._rev) {
-        couch.insert(data, '/device/' + data.id, function(err, device) {
-            if (err) {
-                return err.status_code < 500 ?
-                    res.json(err.status_code, err.message) :
-                    res.json(500);
-            }
-            res.json(device);
-        });
-    } else {
-        couch.get('/device/' + data.id, function(err, device) {
-            if (err) {
-                return err.status_code < 500 ?
-                    res.json(err.status_code, err.message) :
-                    res.json(500);
-            }
-            couch.insert(
-                _(data).defaults(device),
-                '/device/' + data.id,
-            function(err, device) {
-                if (err) {
-                    return err.status_code < 500 ?
-                        res.json(err.status_code, err.message) :
-                        res.json(500);
-                }
-                if (err) return res.json(400, err.message);
-                res.json(device);
-            })
-        });
-    }
+    couch.insert(data, '/device/' + data.id, function(err, device) {
+        if (err) {
+            return err.status_code < 500 ?
+                res.json(err.status_code, err.message) :
+                res.json(500);
+        }
+        res.json(device);
+    });
 });
 
 // Get the current position of all devices
